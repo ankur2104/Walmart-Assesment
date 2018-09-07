@@ -56,6 +56,13 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.vmlens/concurrent-junit -->
+		<dependency>
+			<groupId>com.vmlens</groupId>
+			<artifactId>concurrent-junit</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.json</groupId>

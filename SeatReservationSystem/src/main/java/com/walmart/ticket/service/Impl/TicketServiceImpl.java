@@ -62,6 +62,8 @@ public class TicketServiceImpl implements TicketService{
 
 		for(SeatHold seatHold :this.statusSeatsMap.getOrDefault(STATUS.HOLD,defaultSeatHold))
 		{
+			if(seatHold!=null && seatHold.getCreatedAt()!=null)
+			{	
 			createdAt= seatHold.getCreatedAt().getEpochSecond();
 			
 			if((now-createdAt)*1000>=holdSeconds)
@@ -88,6 +90,7 @@ public class TicketServiceImpl implements TicketService{
 					}
 				}	
 
+			}
 			}
 			index++;
 
@@ -174,7 +177,7 @@ public class TicketServiceImpl implements TicketService{
 		int index =0;
 		for(SeatHold sh:seatsOnHold)
 		{
-			if(sh.getId()==seatHoldId && sh.getReservedBy().getEmail().equals(customerEmail))
+			if(sh!=null && sh.getId()==seatHoldId && sh.getReservedBy()!= null && sh.getReservedBy().getEmail().equals(customerEmail))
 			{
 				SeatHold seatRemovedfrmHold =	seatsOnHold.remove(index);
 				seatRemovedfrmHold.setCreatedAt(Instant.now());
