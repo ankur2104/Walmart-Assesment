@@ -57,10 +57,12 @@ public class TicketServiceImpl implements TicketService{
 	private void updateExpiredHolds() {
 		long now ;
 		long createdAt ;
-		List<Integer> indexList =Collections.synchronizedList(new ArrayList<Integer>());
+		List<Integer> indexList =new ArrayList<Integer>();
 		int index =0;
 		now = Instant.now().getEpochSecond();
 
+		synchronized(this)
+		{
 		for(SeatHold seatHold :this.statusSeatsMap.getOrDefault(STATUS.HOLD,defaultSeatHold))
 		{
 			if(seatHold!=null && seatHold.getCreatedAt()!=null)
@@ -103,7 +105,7 @@ public class TicketServiceImpl implements TicketService{
 			SeatHold a = this.statusSeatsMap.get(STATUS.HOLD).remove(ind);
 			
 		}
-
+		}
 
 	}
 
@@ -115,12 +117,11 @@ public class TicketServiceImpl implements TicketService{
 	public SeatHold findAndHoldSeats(int numSeats, String customerEmail) {
 		// TODO Auto-generated method stub
 		
-		List<Seat> holdSeats = Collections.synchronizedList(new ArrayList<Seat>());
+		List<Seat> holdSeats = new ArrayList<Seat>();
 		List<Seat> availableSeats = null;
 
 		//it will also update any hold seats which has expired 
-		synchronized(this)
-		{	
+		
 		int countSeatsA= numSeatsAvailable();
 		// if seats available are less than required.
 		if(  numSeats<=0){
@@ -137,7 +138,9 @@ public class TicketServiceImpl implements TicketService{
 			Consumer cust = new Consumer(customerEmail);
 			List<SeatHold> availableSeatList = Collections.synchronizedList(this.statusSeatsMap.get(STATUS.AVAILABLE));
 
-			// for available seats we maintain only one List of SeatHold as it doesn't hold any information for customer,instant time etc. 
+			// for available seats we maintain only one List of SeatHold as it doesn't hold any information for customer,instant time etc.
+			synchronized(this)
+			{	
 			for(SeatHold sa:availableSeatList)
 			{
 				availableSeats = sa.getSeatLoc();
@@ -187,6 +190,8 @@ public class TicketServiceImpl implements TicketService{
 		// get the list of seatsOn hold and find the one we are supposed to reserve
 		List<SeatHold> seatsOnHold= statusSeatsMap.get(STATUS.HOLD);
 		int index =0;
+		synchronized(this)
+		{	
 		for(SeatHold sh:seatsOnHold)
 		{
 			if(sh!=null && sh.getId()==seatHoldId && sh.getReservedBy()!= null && sh.getReservedBy().getEmail().equals(customerEmail))
@@ -204,12 +209,12 @@ public class TicketServiceImpl implements TicketService{
 				seatReserved.add(seatRemovedfrmHold);
 				statusSeatsMap.put(STATUS.RESERVED, seatReserved);
 				statusSeatsMap.put(STATUS.HOLD, seatsOnHold);
-
+				System.out.println("Reservation Request for the customer "+customerEmail+" is succesful");
 				return reservationCode(seatRemovedfrmHold);
 			}
 			index++;
 		}
-
+		}
 		// in case the the reservation ID is not found 
 		System.out.println("Either SeatHold has expired or the email ID/Reservation ID is incorrect ");
 		return "Either SeatHold has expired or the email ID/Reservation ID is incorrect";

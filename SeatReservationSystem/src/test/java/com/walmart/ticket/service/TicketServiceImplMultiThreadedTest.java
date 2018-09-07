@@ -36,11 +36,13 @@ public class TicketServiceImplMultiThreadedTest {
 	
 	
 	@Test
-	@ThreadCount(2)
+	@ThreadCount(10)
 	public void reserveSeats() throws InterruptedException{
 		
+		String response = null;
 		int numberOfSeats = service.numSeatsAvailable();
-		assert(numberOfSeats == 50);
+		assertTrue(numberOfSeats == 50 || numberOfSeats == 44 || numberOfSeats == 38 ||  numberOfSeats == 32 || numberOfSeats == 26 || numberOfSeats == 20 || numberOfSeats == 14 || numberOfSeats == 8 || numberOfSeats == 2);
+		
 		
 		// test for number of rows
 		assert(TicketServiceImpl.getNbrOfRows() ==10);
@@ -50,32 +52,19 @@ public class TicketServiceImplMultiThreadedTest {
 
 		
 		// valid reservation case
-		SeatHold s1 = service.findAndHoldSeats(30, "test@google.com");
+		SeatHold s1 = service.findAndHoldSeats(6, Thread.currentThread().getName()+"@xyz.com");
 		assertNotNull(s1);
 		
-		String response = service.reserveSeats(s1.getId(), "test@google.com");
+		if(s1!=null && s1.getReservedBy()!=null && s1.getReservedBy().getEmail().equals(Thread.currentThread().getName()+"@xyz.com") && s1.getSeatLoc().size()>0)
+		{	
+		 response = service.reserveSeats(s1.getId(), Thread.currentThread().getName()+"@xyz.com");
 		assertNotNull(response);
-	//	assertTrue(response.contains("Congrats! Your seats have been reserved!"));
-		
-			// invalid ID
-	/*	response = service.reserveSeats(-1, "test@google.com");
-		assertNotNull(response);
-		assertTrue(response.contains("SeatHold has expired or the email ID/Reservation ID is incorrect"));
+		assertTrue(response.contains("Congrats! Your seats have been reserved!"));
+		}
 		
 		
-		// Invalid emailID 
-		 s1 = service.findAndHoldSeats(5, "test@google.com");
-		response = service.reserveSeats(s1.getId(), "XYZ@google.com");
-		assertNotNull(response);
-		assertTrue(response.contains("SeatHold has expired or the email ID/Reservation ID is incorrect"));
 		
-		s1 = service.findAndHoldSeats(10, "test@google.com");
-		// sleep for time more than hold time
-		Thread.sleep(holdTime);
-		response = service.reserveSeats(s1.getId(), "xyz@abc.com");
-		assertNotNull(response);
-		assertTrue(response.contains("SeatHold has expired or the email ID/Reservation ID is incorrect"));
-		*/
+		
 		
 		
 	}

@@ -25,8 +25,7 @@ Following data model/POJO's has been implemented
  
 
 # Assumptions
-* Further test/enhancements are required for synchronization issues as multiple user can be acting on same set of seats. This needs further testing and enhancements.
-TicketServiceImplMultiThreadedTest is added for this purpose. However due to some critical deliveries lines up in my project(job), I am not able to  complete this test case. 
+* Further test/enhancements are required for synchronization issues as multiple user can be acting on same set of seats. TicketServiceImplMultiThreadedTest is added for this purpose.  
 * It is assumed that lower number seats are nearest to screen and are the best seats available from the customer perspective.However the logic can be enhanced to include more business rules for determining the best available seats.   
 * The current system design might not work in the distributed systems.That will require use of distributed/centralized caching or persistence layer.
 * System doesn't allow to change the number of seats while reserving. All seats which are on hold are reserved.

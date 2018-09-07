@@ -68,7 +68,7 @@ public class TicketReservationMain {
 	 */
 	public static Map<STATUS,List<SeatHold>> initializeSeats()
 	{
-		List<Seat> seatList  = Collections.synchronizedList(new ArrayList<Seat>());
+		List<Seat> seatList  = new ArrayList<Seat>();
 		Map<STATUS,List<SeatHold>> seatsMap = new ConcurrentHashMap<STATUS,List<SeatHold>>();
 		if(nbrOfRows!=null && nbrOfSeatsPerRow!=null)
 		{		
