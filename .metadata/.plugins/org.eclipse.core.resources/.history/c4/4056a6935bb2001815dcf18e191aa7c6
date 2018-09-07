@@ -1,0 +1,20 @@
+# SeatReservationSystem
+
+
+# Maven Commands:
+1. mvn clean install (To run the test cases and generate the SeatReservation-1.0.0.jar).
+
+
+# Implementation:
+Following data model/POJO's has been implemented
+* Consumer: Contains consumer information like Name,emailId,ConsumerId.
+* Seat: Contains Seat co-ordinates in a matrix (like 0th row,4th seat) 
+* SeatHold: Contains list of seats and reserved/hold information and the time it is put on hold
+* A map is maintained for the seats in 3 different states (Available,Hold,Reserved)
+* 
+ 
+
+
+# Assumptions/Note: 
+* 
+* Right now, this finds available seats based on linearly. But I would enhance that as well. I meant, if user requests n no of seats and if second last row has that in one row, then i would like to take them compare to taking couple of seats from last row and remaining from second last.

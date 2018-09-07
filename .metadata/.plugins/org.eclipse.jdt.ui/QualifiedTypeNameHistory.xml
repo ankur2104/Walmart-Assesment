@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.util.TicketConstant"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.model.Theater"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.service.TicketService"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.model.STATUS"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.model.Consumer"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.model.SeatHold"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.service.Impl.TicketServiceImpl"/>
+<fullyQualifiedTypeName name="com.walmart.ticket.TicketReservationMain"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.FileReader"/>
+<fullyQualifiedTypeName name="junit.framework.Assert"/>
+<fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+</qualifiedTypeNameHistroy>

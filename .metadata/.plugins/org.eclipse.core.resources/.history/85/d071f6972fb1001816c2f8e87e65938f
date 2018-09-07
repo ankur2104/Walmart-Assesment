@@ -1,0 +1,68 @@
+package com.walmart.ticket.model;
+
+import java.time.Instant;
+import java.util.List;
+
+public class SeatHold {
+	private List<Seat> seatLoc;
+	private Consumer reservedBy;
+	private STATUS status;
+	private Instant createdAt;
+	
+	
+	public SeatHold(List<Seat> seatLoc, STATUS status) {
+		super();
+		this.seatLoc = seatLoc;
+		this.status = status;
+	}
+	
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Instant createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	
+
+	public List<Seat> getSeatLoc() {
+		return seatLoc;
+	}
+	
+	public void setSeatLoc(List<Seat> seatLoc) {
+		this.seatLoc = seatLoc;
+	}
+	
+	public Consumer getReservedBy() {
+		return reservedBy;
+	}
+	
+	public void setReservedBy(Consumer reservedBy) {
+		this.reservedBy = reservedBy;
+	}
+	
+	public STATUS getStatus() {
+		return status;
+	}
+	
+	public void setStatus(STATUS status) {
+		this.status = status;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Seat<");
+		if (seatLoc != null)
+			builder.append(seatLoc).append(", ");
+		if (reservedBy != null)
+			builder.append("reservedBy=").append(reservedBy).append(", ");
+		if (status != null)
+			builder.append("status=").append(status);
+		builder.append(">");
+		return builder.toString();
+	}
+	
+	
+}

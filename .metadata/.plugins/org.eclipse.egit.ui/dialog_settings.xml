@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="EGit.KnownHosts">
+		<item value="bitbucket.org"/>
+		<item value="git.eclipse.org"/>
+		<item value="github.com"/>
+	</list>
+	<list key="RepositorySelectionPage.UsedUris">
+		<item value="https://github.com/Gura-San/ticket-service-coding-challenge.git"/>
+		<item value="https://github.com/wsapiens/ticket-service.git"/>
+		<item value="https://github.com/darpan7/TicketService.git"/>
+		<item value="https://github.com/aterweele/walmart-ticketservice.git"/>
+		<item value="https://github.com/vamshins/ticket-booking-service.git"/>
+	</list>
+</section>

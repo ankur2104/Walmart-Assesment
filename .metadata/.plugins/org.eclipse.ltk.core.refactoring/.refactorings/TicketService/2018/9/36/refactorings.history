@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;TicketServiceImplTest.java&apos; to &apos;SeatReservationSystem/src/test/java&apos;&#x0A;- Original project: &apos;TicketService&apos;&#x0A;- Destination element: &apos;SeatReservationSystem/src/test/java&apos;&#x0A;- Original element: &apos;com.walmart.ticket.service.Impl.TicketServiceImplTest.java&apos;" description="Copy compilation unit" destination="=SeatReservationSystem/src\/test\/java" element1="/src\/test\/java&lt;com.walmart.ticket.service.Impl{TicketServiceImplTest.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1536188324944" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TicketServiceImplTest.findAndHoldSeats" project="SeatReservationSystem" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testcase name="findAndHoldSeats" classname="com.walmart.ticket.service.TicketServiceImplTest" time="7.961"/>
+</testrun>

@@ -1,0 +1,130 @@
+package com.walmart.ticket;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import com.walmart.ticket.model.STATUS;
+import com.walmart.ticket.model.SeatHold;
+import com.walmart.ticket.service.Impl.TicketServiceImpl;
+import com.walmart.ticket.model.Seat;
+import com.walmart.ticket.util.TicketConstant;
+
+public class TicketReservationMain {
+
+	private static Properties prop ;
+	static Integer nbrOfRows ;
+	static Integer nbrOfSeatsPerRow  ;
+	static Integer theatre  ;
+
+
+	static {
+		// TODO Auto-generated method stub
+		prop = new Properties();
+		InputStream input = null;
+		try {
+			input = new FileInputStream(TicketConstant.APP_CONF_FILE);
+			prop.load(input);
+
+			try {
+				nbrOfRows = Integer.parseInt(prop.getProperty("NbrOfRows")) ;
+				nbrOfSeatsPerRow = Integer.parseInt(prop.getProperty("NbrOfSeatsPerRow")) ;
+			}
+			catch(NumberFormatException ex)
+			{
+				System.err.println("Invalid Number Of Seats");
+				ex.printStackTrace();
+			}
+		}
+		catch(IOException ex)
+		{
+			ex.printStackTrace();
+		}
+		finally {
+
+			if(input!=null)
+			{
+				try { input.close();
+				}
+				catch(IOException ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+		}
+
+
+
+	}
+
+
+	/**
+	 * This method initializes the seat object with default value and the respective co-ordinates of the seat;
+	 */
+	public static Map<STATUS,List<SeatHold>> initializeSeats()
+	{
+		List<Seat> seatList  = new ArrayList<Seat>();
+		Map<STATUS,List<SeatHold>> seatsMap = new HashMap<STATUS,List<SeatHold>>();
+		if(nbrOfRows!=null && nbrOfSeatsPerRow!=null)
+		{		
+			List<SeatHold> availableSeats = new ArrayList<SeatHold>();
+			System.out.println("Total number of rows="+nbrOfRows);
+			System.out.println("Total number of seats in each row="+nbrOfSeatsPerRow);
+			// List to store all the seats.
+
+			Seat seat = null;
+			for(int i=0;i<nbrOfRows;i++)
+			{
+				for(int k=0;k<nbrOfSeatsPerRow;k++)
+				{
+					//creates a new seat
+					seat = new Seat(i,k);
+					seatList.add(seat);
+					
+				}
+			}
+			SeatHold seatH = new SeatHold(seatList);
+			availableSeats.add(seatH);
+			seatsMap.put(STATUS.AVAILABLE, availableSeats);
+		}
+		else
+		{
+			System.err.println("No Seats are initialised");
+		}
+
+		return seatsMap;
+
+	}
+
+
+
+	public static void main(String[] args) {
+
+
+		Map<STATUS,List<SeatHold>> seatsMap = initializeSeats();
+
+		TicketServiceImpl t = new TicketServiceImpl(seatsMap,nbrOfRows, nbrOfSeatsPerRow);
+
+		System.out.println("Total number of seats at the venue="+t.numSeatsAvailable());
+		
+		SeatHold sh = t.findAndHoldSeats(10,"abc@test.com");
+		for(Seat s :sh.getSeatLoc())
+		{
+			System.out.println("The following seat numbers are on hold ="+s.getRow()+" "+s.getColumn());
+			System.out.println("The seat Numbers are  ="+(s.getRow()*nbrOfSeatsPerRow+s.getColumn()));
+			
+		}
+		System.out.println("The following seat numbers are on hold by "+sh.getReservedBy());
+		
+		
+
+
+	}
+
+}

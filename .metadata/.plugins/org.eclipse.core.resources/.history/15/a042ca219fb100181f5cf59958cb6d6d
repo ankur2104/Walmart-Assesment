@@ -1,0 +1,93 @@
+package com.walmart.ticket.service;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.walmart.ticket.TicketReservationMain;
+import com.walmart.ticket.model.STATUS;
+import com.walmart.ticket.model.SeatHold;
+import com.walmart.ticket.service.Impl.TicketServiceImpl;
+
+
+
+public class TicketServiceImplTest {
+	
+	private TicketServiceImpl service;
+	private int holdTime = 6000;
+	
+	
+
+	@Before
+	public void setUp() throws Exception {
+		ConcurrentHashMap<STATUS,List<SeatHold>> seatsMap = TicketReservationMain.initializeSeats();
+		
+		service = new TicketServiceImpl(seatsMap, TicketReservationMain.nbrOfRows,TicketReservationMain.nbrOfSeatsPerRow);
+	}
+
+	
+	//number of rows and seats can be adjusted in properties file
+	@Test
+	//input NbrOfRows = 10
+	//NbrOfSeatsPerRow = 5
+	public void numSeatsAvailable() {
+		
+		int numberOfSeats = service.numSeatsAvailable();
+		assert(numberOfSeats == 50);
+		
+		// test for number of rows
+		assert(TicketServiceImpl.getNbrOfRows() ==10);
+
+		// test for number of columns
+		assert(TicketServiceImpl.getNbrOfSeatsPerRow() ==5);
+	}
+	
+	
+	
+	@Test
+	public void findAndHoldSeats() throws InterruptedException{
+		SeatHold s1 = service.findAndHoldSeats(5, "test0@abc.com");
+		
+		assertNotNull(s1);
+		
+		assert(5 == s1.getSeatLoc().size());
+		
+		// test for overbooking the seats
+		 s1 = service.findAndHoldSeats(50, "test1@abc.com");
+		 assertNotNull(s1);
+		assert(0 == s1.getSeatLoc().size());
+		
+		// sleep for time more than hold time
+		Thread.sleep(holdTime);
+		
+		s1 = service.findAndHoldSeats(47, "test2@abc.com");
+		assertNotNull(s1);
+		assert(47 == s1.getSeatLoc().size());
+		assert(s1.getReservedBy().getEmail().equals("test2@abc.com"));
+		
+		// sleep for time less than hold time
+		Thread.sleep(2000);
+		s1 = service.findAndHoldSeats(2, "test3@abc.com");
+		assertNotNull(s1);
+		assert(0 == s1.getSeatLoc().size());
+	}
+	
+	@Test
+	public void reserveSeats() throws InterruptedException{
+		SeatHold s1 = service.findAndHoldSeats(1, "xyz@abc.com");
+		String conf = service.reserveSeats(s1.getId(), "xyz@abc.com");
+		assertNotNull(conf);
+		assertTrue(conf.contains("reserved!"));
+		conf = service.reserveSeats(0, "xyz@abc.com");
+		assert(null == conf);
+	}
+	
+	
+	
+	
+}

@@ -1,0 +1,70 @@
+package com.walmart.ticket.service;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+import java.util.Map;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.walmart.ticket.TicketReservationMain;
+import com.walmart.ticket.model.STATUS;
+import com.walmart.ticket.model.SeatHold;
+
+
+
+public class TicketReservationMainTest {
+	
+	
+	
+	
+	
+
+	@Before
+	public void setUp() throws Exception {
+		
+		
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+	
+	
+	//number of rows and seats can be adjusted in properties file at ./junitConfig/config.properties
+	
+	@Test
+	//input NbrOfRows = 2
+	//NbrOfSeatsPerRow = 10
+	public void initializeSeatsTest() {
+		
+		Map<STATUS,List<SeatHold>> seatsMap = TicketReservationMain.initializeSeats();
+		
+		// to test seatsmap is not empty
+		assertFalse(seatsMap.isEmpty());
+		
+		// to test the seats count for available seats
+		assert(seatsMap.get(STATUS.AVAILABLE).get(0).getSeatLoc().size()==20);
+		
+		//to test the row count
+		System.out.println(seatsMap.get(STATUS.AVAILABLE).get(0).getSeatLoc().get(0).getRow());
+		assert(seatsMap.get(STATUS.AVAILABLE).get(0).getSeatLoc().get(0).getRow()==2);
+		
+		//to test the column count
+		assert(seatsMap.get(STATUS.AVAILABLE).get(0).getSeatLoc().get(0).getColumn()==10);
+		
+		// to test the seats count for hold seats
+		assert(seatsMap.get(STATUS.HOLD).size()==0);
+		
+		// to test the seats count for RESERVED seats
+		assert(seatsMap.get(STATUS.RESERVED).size()==0);
+	}
+	
+	
+	
+	
+	
+}

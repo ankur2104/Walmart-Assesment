@@ -1,0 +1,54 @@
+package com.walmart.ticket.service;
+
+import static org.junit.Assert.assertFalse;
+
+import java.util.List;
+import java.util.Map;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.walmart.ticket.TicketReservationMain;
+import com.walmart.ticket.model.STATUS;
+import com.walmart.ticket.model.SeatHold;
+
+
+
+public class TicketReservationMainTest {
+	
+	
+	
+	
+	
+
+	@Before
+	public void setUp() throws Exception {
+		
+		
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+	
+	
+	//number of rows and seats can be adjusted in properties file at ./junitConfig/config.properties
+	
+	@Test
+	//input NbrOfRows = 2
+	//NbrOfSeatsPerRow = 10
+	public void initializeSeatsTest() {
+		
+		Map<STATUS,List<SeatHold>> seatsMap = TicketReservationMain.initializeSeats();
+		assertFalse(seatsMap.isEmpty());
+		
+		assert(seatsMap.get(STATUS.AVAILABLE).size(),5);
+		
+	}
+	
+	
+	
+	
+	
+}

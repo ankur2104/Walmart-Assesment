@@ -1,0 +1,7 @@
+package com.walmart.ticket.util;
+
+public abstract class TicketConstant {
+
+    public static final String DOWNLOADER_CONF_FILE = "downloader.conf";
+    
+}

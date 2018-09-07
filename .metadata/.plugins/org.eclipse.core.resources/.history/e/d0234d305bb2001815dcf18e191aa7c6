@@ -1,0 +1,22 @@
+# SeatReservationSystem
+
+
+# Maven Commands:
+1. mvn clean install (To run the test cases and generate the SeatReservation-1.0.0.jar)
+
+
+# Implementation:
+Following data model/POJO's has been implemented
+* Consumer: Contains consumer information like Name,emailId,ConsumerId.
+* Seat: Contains Seat co-ordinates in a matrix (like 0th row,4th seat) 
+* SeatHold: Contains list of seats and reserved/hold information and the time it is put on hold 
+
+ENUM
+* STATUS: works as a separate timed based object where it has user requested information (#seats, email), and where event happened (timestamp). This object depends on the request for hold.
+
+# Service Implementation:
+* TicketServiceImpl: implements 3 services plus supporting methods. Basically, it has Map to save created SeatHolds (just because findAndHoldRequest(..) takes id instead of SeatHold), venue object to get access of seats. It also takes care that Seat is created only one time (referencing with single thread application).
+
+# Note: 
+* Test cases are certainly not enough. I would take care of that for sure.
+* Right now, this finds available seats based on linearly. But I would enhance that as well. I meant, if user requests n no of seats and if second last row has that in one row, then i would like to take them compare to taking couple of seats from last row and remaining from second last.

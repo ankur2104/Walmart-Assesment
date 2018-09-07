@@ -1,0 +1,58 @@
+package com.walmart.ticket.model;
+
+
+public class Seat {
+	private int row;
+	private int column;
+	
+	/**
+	 * @param row
+	 * @param seatPerRow
+	 */
+	public Seat(int row, int seatPerRow) {
+		super();
+		this.row = row;
+		this.column = seatPerRow;
+	}
+	
+	/**
+	 * @return row
+	 */
+	public int getRow() {
+		return row;
+	}
+	
+	/**
+	 * @param row
+	 */
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	/**
+	 * @return seatPerRow
+	 */
+	public int getSeatPerRow() {
+		return column;
+	}
+	
+	/**
+	 * @param seatPerRow
+	 */
+	public void setSeatPerRow(int seatPerRow) {
+		this.column = seatPerRow;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("{").append(row).append(",")
+				.append(column).append("}");
+		return builder.toString();
+	}
+	
+	
+}
