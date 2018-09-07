@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.walmart.ticket.model.STATUS;
 import com.walmart.ticket.model.SeatHold;
@@ -68,13 +68,13 @@ public class TicketReservationMain {
 	 */
 	public static Map<STATUS,List<SeatHold>> initializeSeats()
 	{
-		List<Seat> seatList  = new ArrayList<Seat>();
-		Map<STATUS,List<SeatHold>> seatsMap = new HashMap<STATUS,List<SeatHold>>();
+		List<Seat> seatList  = Collections.synchronizedList(new ArrayList<Seat>());
+		Map<STATUS,List<SeatHold>> seatsMap = new ConcurrentHashMap<STATUS,List<SeatHold>>();
 		if(nbrOfRows!=null && nbrOfSeatsPerRow!=null)
 		{		
-			List<SeatHold> availableSeats = new ArrayList<SeatHold>();
-			List<SeatHold> holdSeats = new ArrayList<SeatHold>();
-			List<SeatHold> reservedSeats = new ArrayList<SeatHold>();
+			List<SeatHold> availableSeats = Collections.synchronizedList(new ArrayList<SeatHold>());
+			List<SeatHold> holdSeats = Collections.synchronizedList(new ArrayList<SeatHold>());
+			List<SeatHold> reservedSeats = Collections.synchronizedList(new ArrayList<SeatHold>());
 			System.out.println("Total number of rows="+nbrOfRows);
 			System.out.println("Total number of seats in each row="+nbrOfSeatsPerRow);
 			// List to store all the seats.

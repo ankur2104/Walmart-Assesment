@@ -2,6 +2,7 @@ package com.walmart.ticket.service.Impl;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -56,7 +57,7 @@ public class TicketServiceImpl implements TicketService{
 	private void updateExpiredHolds() {
 		long now ;
 		long createdAt ;
-		List<Integer> indexList =new ArrayList<Integer>();
+		List<Integer> indexList =Collections.synchronizedList(new ArrayList<Integer>());
 		int index =0;
 		now = Instant.now().getEpochSecond();
 
@@ -114,10 +115,12 @@ public class TicketServiceImpl implements TicketService{
 	public SeatHold findAndHoldSeats(int numSeats, String customerEmail) {
 		// TODO Auto-generated method stub
 		
-		List<Seat> holdSeats = new ArrayList<Seat>();
+		List<Seat> holdSeats = Collections.synchronizedList(new ArrayList<Seat>());
 		List<Seat> availableSeats = null;
 
 		//it will also update any hold seats which has expired 
+		synchronized(this)
+		{	
 		int countSeatsA= numSeatsAvailable();
 		// if seats available are less than required.
 		if(  numSeats<=0){
@@ -132,19 +135,28 @@ public class TicketServiceImpl implements TicketService{
 		else
 		{
 			Consumer cust = new Consumer(customerEmail);
-			List<SeatHold> availableSeatList = this.statusSeatsMap.get(STATUS.AVAILABLE);
+			List<SeatHold> availableSeatList = Collections.synchronizedList(this.statusSeatsMap.get(STATUS.AVAILABLE));
 
 			// for available seats we maintain only one List of SeatHold as it doesn't hold any information for customer,instant time etc. 
 			for(SeatHold sa:availableSeatList)
 			{
 				availableSeats = sa.getSeatLoc();
-				holdSeats = new ArrayList<Seat>();
+				holdSeats = Collections.synchronizedList(new ArrayList<Seat>());
 				for(int i=0;i<numSeats;i++)
 				{
 					// as the seats are removed list gets shorten by one.so remove (0).
+					if(availableSeats.size()>0)
+					{	
 					Seat s = availableSeats.remove(0);
 					holdSeats.add(s);
+					}
+					else
+					{
+						System.out.println("Hold Request for "+numSeats +" seats by "+customerEmail + " is NOT successful");
+						return new SeatHold(holdSeats) ;
+					}	
 				}
+				
 				
 			}
 
@@ -161,7 +173,7 @@ public class TicketServiceImpl implements TicketService{
 			System.out.println("Hold Request for "+numSeats +" seats by "+customerEmail + " is successful");
 			System.out.println("Seats remaining " +numSeatsAvailable());
 			return seatHold ;
-
+		}
 		}
 
 	}
@@ -186,7 +198,7 @@ public class TicketServiceImpl implements TicketService{
 
 				if(seatReserved==null || seatReserved.isEmpty())
 				{
-					seatReserved = new ArrayList<SeatHold>() ;
+					seatReserved = Collections.synchronizedList(new ArrayList<SeatHold>()) ;
 				}
 
 				seatReserved.add(seatRemovedfrmHold);
