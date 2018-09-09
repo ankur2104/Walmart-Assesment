@@ -4,7 +4,8 @@
 # Maven Commands:
 
 * From the Root directory (where POM.xml exist) exceute the following command to compile the classes, run the test cases and package the jar as SeatReservation-1.0.0.jar(without libs) 
-	mvn clean install 
+
+* mvn clean install 
 
 
 # Implementation:
